@@ -6,15 +6,16 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-FROM alpine:3.11.3
+# https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/ubi8-minimal
+FROM registry.access.redhat.com/ubi8-minimal:8.1-398
 
 ARG KUBERNETES_VERSION=v1.17.3
 
-RUN apk add --no-cache openssl curl && \
+RUN microdnf install -y openssl && \
     cd /usr/local/bin && \
     curl -sLO https://storage.googleapis.com/kubernetes-release/release/${KUBERNETES_VERSION}/bin/linux/amd64/kubectl && \
     chmod +x kubectl && \
-    apk del curl
+    microdnf clean all
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
