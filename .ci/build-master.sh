@@ -44,8 +44,8 @@ build_and_push_on_quay() {
     docker push quay.io/eclipse/che-cert-manager-ca-cert-generator:${TAG}
 }
 
-load_jenkins_vars()
-install_deps()
+load_jenkins_vars
+install_deps
 
-login_on_quay()
-build_and_push_on_quay()
+login_on_quay
+build_and_push_on_quay
