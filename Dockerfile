@@ -11,9 +11,13 @@ FROM registry.access.redhat.com/ubi8-minimal:8.1-398
 
 ARG KUBERNETES_VERSION=v1.17.3
 
-RUN microdnf install -y openssl && \
+RUN case $(uname -m) in \
+       x86_64) ARCH="amd64" ;; \
+       s390x) ARCH="s390x";; \
+    esac && \
+    microdnf install -y openssl && \
     cd /usr/local/bin && \
-    curl -sLO https://storage.googleapis.com/kubernetes-release/release/${KUBERNETES_VERSION}/bin/linux/amd64/kubectl && \
+    curl -sLO https://storage.googleapis.com/kubernetes-release/release/${KUBERNETES_VERSION}/bin/linux/${ARCH}/kubectl && \
     chmod +x kubectl && \
     microdnf clean all
 
